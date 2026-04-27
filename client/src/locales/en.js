@@ -6,6 +6,7 @@ export default {
     orders: 'Orders',
     finance: 'Finance',
     demandForecast: 'Demand Forecast',
+    restocking: 'Restocking',
     companyName: 'Catalyst Components',
     subtitle: 'Inventory Management System'
   },
@@ -309,6 +310,75 @@ export default {
     english: 'English',
     japanese: 'Japanese',
     selectLanguage: 'Select Language'
+  },
+
+  // Reports
+  reports: {
+    title: 'Performance Reports',
+    description: 'View quarterly performance metrics and monthly trends',
+    loading: 'Loading reports...',
+    error: 'Failed to load reports',
+    quarterly: {
+      title: 'Quarterly Performance',
+      quarter: 'Quarter',
+      totalOrders: 'Total Orders',
+      totalRevenue: 'Total Revenue',
+      avgOrderValue: 'Avg Order Value',
+      fulfillmentRate: 'Fulfillment Rate'
+    },
+    monthly: {
+      title: 'Monthly Revenue Trend',
+      analysisTitle: 'Month-over-Month Analysis',
+      month: 'Month',
+      orders: 'Orders',
+      revenue: 'Revenue',
+      change: 'Change',
+      growthRate: 'Growth Rate'
+    },
+    summary: {
+      totalRevenue: 'Total Revenue (YTD)',
+      avgMonthlyRevenue: 'Avg Monthly Revenue',
+      totalOrders: 'Total Orders (YTD)',
+      bestQuarter: 'Best Performing Quarter'
+    }
+  },
+
+  // Restocking
+  restocking: {
+    title: 'Restocking Recommendations',
+    description: 'Purchase order suggestions based on stock levels, demand trends, and budget',
+    budgetCeiling: 'Budget Ceiling',
+    budgetPlaceholder: 'Enter budget...',
+    stats: {
+      itemsBelowReorder: 'Items Below Reorder Point',
+      totalRestockCost: 'Total Restock Cost (All Items)',
+      affordableItems: 'Items Affordable Within Budget'
+    },
+    table: {
+      title: 'Recommended Purchase Orders',
+      sku: 'SKU',
+      itemName: 'Item Name',
+      category: 'Category',
+      currentStock: 'Current Stock',
+      reorderPoint: 'Reorder Point',
+      shortage: 'Shortage',
+      demandTrend: 'Demand Trend',
+      suggestedQty: 'Suggested Qty',
+      unitCost: 'Unit Cost',
+      estCost: 'Est. Cost',
+      budgetStatus: 'Budget Status'
+    },
+    budgetStatus: {
+      withinBudget: 'Within Budget',
+      overBudget: 'Over Budget'
+    },
+    footer: {
+      itemsSelected: '{count} items within budget',
+      totalCost: 'Total Cost',
+      remainingBudget: 'Remaining Budget',
+      noBudget: 'No budget set'
+    },
+    noItems: 'No items below reorder point for the selected filters.'
   },
 
   // Common
