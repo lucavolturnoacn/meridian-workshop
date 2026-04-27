@@ -27,6 +27,14 @@
           </router-link>
         </nav>
         <LanguageSwitcher />
+        <button class="theme-toggle" @click="toggleTheme" :title="isDark ? 'Switch to light mode' : 'Switch to dark mode'">
+          <svg v-if="isDark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
+            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/>
+          </svg>
+          <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+          </svg>
+        </button>
         <ProfileMenu
           @show-profile-details="showProfileDetails = true"
           @show-tasks="showTasks = true"
@@ -59,6 +67,7 @@ import { ref, onMounted, computed } from 'vue'
 import { api } from './api'
 import { useAuth } from './composables/useAuth'
 import { useI18n } from './composables/useI18n'
+import { useTheme } from './composables/useTheme'
 import FilterBar from './components/FilterBar.vue'
 import ProfileMenu from './components/ProfileMenu.vue'
 import ProfileDetailsModal from './components/ProfileDetailsModal.vue'
@@ -77,6 +86,7 @@ export default {
   setup() {
     const { currentUser } = useAuth()
     const { t } = useI18n()
+    const { isDark, toggleTheme } = useTheme()
     const showProfileDetails = ref(false)
     const showTasks = ref(false)
     const apiTasks = ref([])
@@ -150,6 +160,8 @@ export default {
 
     return {
       t,
+      isDark,
+      toggleTheme,
       showProfileDetails,
       showTasks,
       tasks,
@@ -162,6 +174,42 @@ export default {
 </script>
 
 <style>
+:root {
+  --bg-app: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-subtle: #f8fafc;
+  --bg-muted: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #1e293b;
+  --text-body: #334155;
+  --text-muted: #64748b;
+  --text-subtle: #475569;
+  --border-default: #e2e8f0;
+  --border-subtle: #f1f5f9;
+  --border-muted: #cbd5e1;
+  --nav-active-bg: #eff6ff;
+  --nav-hover-bg: #f1f5f9;
+  --nav-active-color: #2563eb;
+}
+
+html[data-theme="dark"] {
+  --bg-app: #0f172a;
+  --bg-surface: #1e293b;
+  --bg-subtle: #1e293b;
+  --bg-muted: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #e2e8f0;
+  --text-body: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+  --border-default: #334155;
+  --border-subtle: #1e293b;
+  --border-muted: #475569;
+  --nav-active-bg: #1e3a5f;
+  --nav-hover-bg: #334155;
+  --nav-active-color: #60a5fa;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -170,10 +218,11 @@ export default {
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background: #f8fafc;
-  color: #1e293b;
+  background: var(--bg-app);
+  color: var(--text-secondary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .app {
@@ -183,12 +232,13 @@ body {
 }
 
 .top-nav {
-  background: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-default);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
   position: sticky;
   top: 0;
   z-index: 100;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .nav-container {
@@ -218,16 +268,16 @@ body {
 .logo h1 {
   font-size: 1.375rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-primary);
   letter-spacing: -0.025em;
 }
 
 .subtitle {
   font-size: 0.813rem;
-  color: #64748b;
+  color: var(--text-muted);
   font-weight: 400;
   padding-left: 0.75rem;
-  border-left: 1px solid #e2e8f0;
+  border-left: 1px solid var(--border-default);
 }
 
 .nav-tabs {
@@ -237,7 +287,7 @@ body {
 
 .nav-tabs a {
   padding: 0.625rem 1.25rem;
-  color: #64748b;
+  color: var(--text-muted);
   text-decoration: none;
   font-weight: 500;
   font-size: 0.938rem;
@@ -247,13 +297,13 @@ body {
 }
 
 .nav-tabs a:hover {
-  color: #0f172a;
-  background: #f1f5f9;
+  color: var(--text-primary);
+  background: var(--nav-hover-bg);
 }
 
 .nav-tabs a.active {
-  color: #2563eb;
-  background: #eff6ff;
+  color: var(--nav-active-color);
+  background: var(--nav-active-bg);
 }
 
 .nav-tabs a.active::after {
@@ -281,13 +331,13 @@ body {
 .page-header h2 {
   font-size: 1.875rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-primary);
   margin-bottom: 0.375rem;
   letter-spacing: -0.025em;
 }
 
 .page-header p {
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 0.938rem;
 }
 
@@ -299,20 +349,20 @@ body {
 }
 
 .stat-card {
-  background: white;
+  background: var(--bg-surface);
   padding: 1.25rem;
   border-radius: 10px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-default);
   transition: all 0.2s ease;
 }
 
 .stat-card:hover {
-  border-color: #cbd5e1;
+  border-color: var(--border-muted);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 .stat-label {
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 0.875rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -323,7 +373,7 @@ body {
 .stat-value {
   font-size: 2.25rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-primary);
   letter-spacing: -0.025em;
 }
 
@@ -344,11 +394,12 @@ body {
 }
 
 .card {
-  background: white;
+  background: var(--bg-surface);
   border-radius: 10px;
   padding: 1.25rem;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-default);
   margin-bottom: 1.25rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .card-header {
@@ -357,13 +408,13 @@ body {
   align-items: center;
   margin-bottom: 1rem;
   padding-bottom: 0.875rem;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--border-default);
 }
 
 .card-title {
   font-size: 1.125rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-primary);
   letter-spacing: -0.025em;
 }
 
@@ -377,16 +428,16 @@ table {
 }
 
 thead {
-  background: #f8fafc;
-  border-top: 1px solid #e2e8f0;
-  border-bottom: 1px solid #e2e8f0;
+  background: var(--bg-subtle);
+  border-top: 1px solid var(--border-default);
+  border-bottom: 1px solid var(--border-default);
 }
 
 th {
   text-align: left;
   padding: 0.5rem 0.75rem;
   font-weight: 600;
-  color: #475569;
+  color: var(--text-subtle);
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -394,8 +445,8 @@ th {
 
 td {
   padding: 0.5rem 0.75rem;
-  border-top: 1px solid #f1f5f9;
-  color: #334155;
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-body);
   font-size: 0.875rem;
 }
 
@@ -404,7 +455,7 @@ tbody tr {
 }
 
 tbody tr:hover {
-  background: #f8fafc;
+  background: var(--bg-subtle);
 }
 
 .badge {
@@ -470,7 +521,7 @@ tbody tr:hover {
 .loading {
   text-align: center;
   padding: 3rem;
-  color: #64748b;
+  color: var(--text-muted);
   font-size: 0.938rem;
 }
 
@@ -482,5 +533,57 @@ tbody tr:hover {
   border-radius: 8px;
   margin: 1rem 0;
   font-size: 0.938rem;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem;
+  background: transparent;
+  border: 1px solid var(--border-default);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+  background: var(--nav-hover-bg);
+  color: var(--text-primary);
+  border-color: var(--border-muted);
+}
+
+html[data-theme="dark"] .filters-bar {
+  background: var(--bg-muted);
+  border-bottom-color: var(--border-default);
+}
+
+html[data-theme="dark"] .filter-group label {
+  color: var(--text-muted);
+}
+
+html[data-theme="dark"] .filter-select {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border-color: var(--border-muted);
+}
+
+html[data-theme="dark"] .filter-select:hover {
+  border-color: var(--text-muted);
+}
+
+html[data-theme="dark"] .reset-filters-btn {
+  background: var(--bg-surface);
+  border-color: var(--border-default);
+  color: var(--text-muted);
+}
+
+html[data-theme="dark"] .reset-filters-btn:hover:not(:disabled) {
+  background: var(--bg-muted);
+  border-color: var(--border-muted);
+  color: var(--text-primary);
 }
 </style>
