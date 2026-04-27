@@ -7,6 +7,8 @@ export default {
     finance: 'Finance',
     demandForecast: 'Demand Forecast',
     restocking: 'Restocking',
+    backlog: 'Backlog',
+    reports: 'Reports',
     companyName: 'Catalyst Components',
     subtitle: 'Inventory Management System'
   },
@@ -379,6 +381,30 @@ export default {
       noBudget: 'No budget set'
     },
     noItems: 'No items below reorder point for the selected filters.'
+  },
+
+  // Backlog
+  backlog: {
+    title: 'Backlog Management',
+    description: 'Track and resolve inventory shortages',
+    loading: 'Loading backlog...',
+    stats: {
+      highPriority: 'High Priority',
+      mediumPriority: 'Medium Priority',
+      lowPriority: 'Low Priority',
+      totalItems: 'Total Backlog Items'
+    },
+    table: {
+      title: 'Backlog Items'
+    },
+    empty: 'No backlog items — all orders can be fulfilled!'
+  },
+
+  // Priority values
+  priorities: {
+    high: 'High',
+    medium: 'Medium',
+    low: 'Low'
   },
 
   // Common

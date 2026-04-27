@@ -7,6 +7,8 @@ export default {
     finance: '財務',
     demandForecast: '需要予測',
     restocking: '補充',
+    backlog: 'バックログ',
+    reports: '業績レポート',
     companyName: '触媒コンポーネンツ',
     subtitle: '在庫管理システム'
   },
@@ -379,6 +381,30 @@ export default {
       noBudget: '予算未設定'
     },
     noItems: '選択したフィルターで再注文点以下の品目はありません。'
+  },
+
+  // Backlog
+  backlog: {
+    title: 'バックログ管理',
+    description: '在庫不足の追跡と解決',
+    loading: 'バックログを読み込み中...',
+    stats: {
+      highPriority: '高優先度',
+      mediumPriority: '中優先度',
+      lowPriority: '低優先度',
+      totalItems: 'バックログ総件数'
+    },
+    table: {
+      title: 'バックログ項目'
+    },
+    empty: 'バックログなし — 全注文に在庫があります！'
+  },
+
+  // Priority values
+  priorities: {
+    high: '高',
+    medium: '中',
+    low: '低'
   },
 
   // Common
