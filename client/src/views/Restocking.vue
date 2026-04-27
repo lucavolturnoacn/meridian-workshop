@@ -354,15 +354,16 @@ export default {
 
 .restocking-table {
   width: 100%;
+  min-width: 860px;
 }
 
-.col-sku      { width: 100px; }
-.col-name     { min-width: 160px; }
-.col-category { width: 120px; }
-.col-num      { width: 90px; text-align: right; }
-.col-trend    { width: 110px; }
-.col-cost     { width: 100px; text-align: right; }
-.col-status   { width: 130px; }
+.col-sku      { width: 75px; }
+.col-name     { min-width: 130px; }
+.col-category { width: 95px; }
+.col-num      { width: 72px; text-align: right; }
+.col-trend    { width: 95px; }
+.col-cost     { width: 82px; text-align: right; }
+.col-status   { width: 112px; }
 
 .row-over-budget td {
   color: #94a3b8;
